@@ -1,0 +1,1 @@
+.journal-filters{display:flex;gap:10px;flex-wrap:wrap;margin:-35px 0 55px}.journal-filters a{padding:10px 16px;border:1px solid var(--line);border-radius:30px;font-size:11px}.journal-filters a.active,.journal-filters a:hover{background:var(--ink);color:white}

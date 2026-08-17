@@ -1,0 +1,37 @@
+{% extends 'directory/base.html' %}
+{% block title %}Join the business community · Publifuerteventura{% endblock %}
+{% block content %}
+<main class="community-page">
+  <section class="community-intro">
+    <span class="kicker">ADVERTISE ON PUBLIFUERTEVENTURA</span>
+    <h1>Turn island searches into <em>new customers.</em></h1>
+    <p>Apply for a paid business listing and join a curated community of Fuerteventura business owners.</p>
+    <div class="community-benefits">
+      <div><b>01</b><span><strong>Be discovered</strong>Reach people actively looking for trusted local services.</span></div>
+      <div><b>02</b><span><strong>Build search visibility</strong>Benefit from relevant profiles and SEO-focused business stories.</span></div>
+      <div><b>03</b><span><strong>Meet your peers</strong>Connect with owners, employers and independent professionals.</span></div>
+    </div>
+  </section>
+  <section class="application-panel">
+    <span class="kicker">TELL US ABOUT YOUR BUSINESS</span>
+    <h2>Apply to advertise</h2>
+    <p>Partner listings are paid. We review every application personally and will send suitable businesses the current options and pricing.</p>
+    <form method="post" class="community-form" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+      {% for field in form %}
+        {% if field.name == 'accepts_updates' %}
+          <label class="check-field">{{ field }}<span>{{ field.label }}</span></label>
+        {% else %}
+          <div class="form-field {% if field.errors %}has-error{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+            {{ field }}
+            {% for error in field.errors %}<small>{{ error }}</small>{% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+      <button type="submit">Send application <span>↗</span></button>
+    </form>
+  </section>
+</main>
+{% endblock %}
