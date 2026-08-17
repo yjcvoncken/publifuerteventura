@@ -7,6 +7,7 @@ sys.path.insert(0, str(BASE_DIR / ".vendor"))
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-fuerteguide-key")
 DEBUG = os.environ.get("DEBUG", "True").lower() in {"1", "true", "yes"}
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h.strip()]
+ALLOWED_HOSTS.append("healthcheck.railway.app")
 RAILWAY_PUBLIC_DOMAIN = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
 if RAILWAY_PUBLIC_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
@@ -56,4 +57,5 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", str(not DEBUG)).lower() in {"1", "true", "yes"}
+SECURE_REDIRECT_EXEMPT = [r"^health/$"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
