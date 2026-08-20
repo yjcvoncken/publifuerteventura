@@ -117,7 +117,7 @@ class ShowcaseCard(models.Model):
     short_text = models.CharField(max_length=180, blank=True)
     image = models.FileField(upload_to="showcase/cards/", blank=True)
     image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
-    destination_url = models.URLField(help_text="Website, WhatsApp, form or portal link.")
+    destination_url = models.URLField(blank=True, help_text="Website, WhatsApp, form or portal link. Leave blank to show a non-clickable card.")
     order = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
 

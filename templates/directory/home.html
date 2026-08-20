@@ -14,14 +14,16 @@
     <div class="hero-route"><span>ENTER</span><b>→</b><span>SEE</span><b>→</b><span>CHOOSE</span><b>→</b><span>CONNECT</span></div>
   </section>
   <section class="showcase-library" id="discover">
-    <div class="showcase-heading"><div><span class="showcase-label dark">DISCOVER</span><h2>Choose your next stop.</h2></div><p>One click takes you straight there.</p></div>
+    <div class="showcase-heading"><div><span class="showcase-label dark">OUR SELECTION</span><h2>The best of Fuerteventura.</h2></div><p>A small selection of businesses we recommend.</p></div>
     <div class="showcase-grid">
-      {% for card in showcase_cards %}<a class="showcase-card" href="{{ card.destination_url }}" target="_blank" rel="noopener">
-        <div class="showcase-card-image"{% if card.image %} style="background-image:url('{{ card.image.url }}')"{% elif card.image_url %} style="background-image:url('{{ card.image_url }}')"{% endif %}></div><div class="showcase-card-shade"></div>
-        <div class="showcase-card-copy"><h3>{{ card.title }}</h3>{% if card.short_text %}<p>{{ card.short_text }}</p>{% endif %}</div><span class="card-arrow">↗</span>
-      </a>{% empty %}<div class="empty-showcase"><span>✦</span><h3>Your showcase starts here.</h3><p>Add the first portal or project from the administration panel.</p><a href="{% url 'admin:index' %}">Open administration ↗</a></div>{% endfor %}
+      {% for business in featured_businesses %}<a class="showcase-card" href="{% url 'business_detail' business.slug %}">
+        <div class="showcase-card-image" style="background-image:url('{{ business.image_url }}')"></div><div class="showcase-card-shade"></div>
+        <div class="showcase-card-copy"><span class="business-category">{{ business.category.name }}</span><h3>{{ business.name }}</h3><p>{{ business.tagline }}</p></div><span class="card-arrow">↗</span>
+      </a>{% empty %}<div class="empty-showcase"><span>✦</span><h3>Your featured selection starts here.</h3><p>Mark the best businesses as featured in the administration panel.</p><a href="{% url 'admin:directory_business_changelist' %}">Choose featured businesses ↗</a></div>{% endfor %}
     </div>
+    <div class="all-businesses-action"><a href="{% url 'explore' %}">See more businesses <span>→</span></a><small>Browse the full directory by business type</small></div>
   </section>
+  <section class="network-portals" aria-labelledby="network-title"><div class="network-heading"><div><span class="showcase-label dark">OUR NETWORK</span><h2 id="network-title">Three ways to connect.</h2></div></div><div class="network-grid">{% for card in showcase_cards %}{% if card.destination_url %}<a class="network-card network-card-{{ forloop.counter }}" href="{{ card.destination_url }}" target="_blank" rel="noopener">{% else %}<div class="network-card network-card-{{ forloop.counter }}">{% endif %}{% if card.image %}<div class="network-image" style="background-image:url('{{ card.image.url }}')"></div>{% elif card.image_url %}<div class="network-image" style="background-image:url('{{ card.image_url }}')"></div>{% endif %}<div class="network-content"><span>0{{ forloop.counter }}</span><div><h3>{{ card.title }}</h3>{% if card.short_text %}<p>{{ card.short_text }}</p>{% endif %}</div>{% if card.destination_url %}<b>↗</b>{% endif %}</div>{% if card.destination_url %}</a>{% else %}</div>{% endif %}{% endfor %}</div></section>
   {% if sponsors %}<section class="sponsor-strip" id="sponsors"><span class="showcase-label dark">WITH THE SUPPORT OF</span><div class="sponsor-row">{% for sponsor in sponsors %}{% if sponsor.link %}<a href="{{ sponsor.link }}" target="_blank" rel="noopener" aria-label="{{ sponsor.name }}">{% else %}<div>{% endif %}{% if sponsor.image %}<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">{% elif sponsor.image_url %}<img src="{{ sponsor.image_url }}" alt="{{ sponsor.name }}">{% else %}<strong>{{ sponsor.name }}</strong>{% endif %}{% if sponsor.link %}</a>{% else %}</div>{% endif %}{% endfor %}</div></section>{% endif %}
   <section class="people" id="about">
     <div class="people-intro"><span class="showcase-label">WHO WE ARE</span><h2>People making<br>connections happen.</h2><p>A local, creative network connecting ideas, projects and people across Fuerteventura.</p></div>
