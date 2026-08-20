@@ -14,7 +14,6 @@ def home(request):
     settings = SiteSettings.objects.first()
     return render(request, "directory/home.html", {
         "site_settings": settings,
-        "featured_businesses": Business.objects.select_related("category").filter(featured=True, partner=True)[:8],
         "showcase_cards": ShowcaseCard.objects.filter(active=True)[:3],
         "sponsors": Sponsor.objects.filter(active=True),
         "team_members": TeamMember.objects.filter(active=True),
