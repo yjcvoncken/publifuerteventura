@@ -8,3 +8,7 @@
 @media(max-width:900px){.network-portals{padding:75px 5vw}.network-grid{grid-template-columns:1fr}.network-card{min-height:270px}}
 .network-card-1 .network-image{inset:28px;background-repeat:no-repeat;background-size:contain;opacity:.72}
 .featured-network-grid{margin-top:4px}
+.showcase-card .showcase-card-shade{opacity:0;transition:opacity .3s ease}
+.showcase-card .showcase-card-copy,.showcase-card .card-arrow{opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease}
+.showcase-card:hover .showcase-card-shade,.showcase-card:focus-visible .showcase-card-shade,.showcase-card:hover .showcase-card-copy,.showcase-card:focus-visible .showcase-card-copy,.showcase-card:hover .card-arrow,.showcase-card:focus-visible .card-arrow{opacity:1;transform:translateY(0)}
+@media(hover:none){.showcase-card .showcase-card-shade,.showcase-card .showcase-card-copy,.showcase-card .card-arrow{opacity:1;transform:none}}
