@@ -10,11 +10,13 @@ urlpatterns = i18n_patterns(
     path("", views.home, name="home"),
     path("pricing/", views.pricing, name="pricing"),
     path("explore/", views.explore, name="explore"),
-    path("business/<slug:slug>/", views.business_detail, name="business_detail"),
     path("blog/", views.blog_archive, name="blog_archive"),
     path("blog/<slug:slug>/", views.blog_detail, name="blog_detail"),
     path("community/join/", views.join_community, name="join_community"),
     path("community/thanks/", views.join_thanks, name="join_thanks"),
+    path("privacy/", views.privacy_policy, name="privacy_policy"),
+    path("cookies/", views.cookie_policy, name="cookie_policy"),
+    path("terms/", views.terms, name="terms"),
     prefix_default_language=False,
 )
 

@@ -10,6 +10,10 @@ from .forms import CommunityApplicationForm
 def health(request):
     return JsonResponse({"status": "ok"})
 
+def privacy_policy(request): return render(request, "directory/privacy_policy.html")
+def cookie_policy(request): return render(request, "directory/cookie_policy.html")
+def terms(request): return render(request, "directory/terms.html")
+
 def home(request):
     settings = SiteSettings.objects.first()
     return render(request, "directory/home.html", {
@@ -33,10 +37,6 @@ def explore(request):
     if category:
         businesses = businesses.filter(category__slug=category)
     return render(request, "directory/explore.html", {"businesses": businesses, "categories": Category.objects.all(), "query": query, "active_category": category})
-
-def business_detail(request, slug):
-    return render(request, "directory/detail.html", {"business": get_object_or_404(Business, slug=slug)})
-
 
 def blog_archive(request):
     posts = BlogPost.objects.filter(
