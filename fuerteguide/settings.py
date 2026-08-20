@@ -8,6 +8,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-fuerteguide-key")
 DEBUG = os.environ.get("DEBUG", "True").lower() in {"1", "true", "yes"}
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h.strip()]
 ALLOWED_HOSTS.append("healthcheck.railway.app")
+# A leading dot allows both Railway's generated root host and its subdomains.
+ALLOWED_HOSTS.append(".up.railway.app")
 RAILWAY_PUBLIC_DOMAIN = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
 if RAILWAY_PUBLIC_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
