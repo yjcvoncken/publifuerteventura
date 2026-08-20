@@ -2,7 +2,11 @@
 {% block title %}Explore services · Publifuerteventura{% endblock %}
 {% block content %}
 <main class="listing-page">
-  <div class="listing-hero"><span class="kicker">THE GOOD LIST</span><h1>Our Recommendation!</h1><form class="search compact"><span class="search-icon">⌕</span><input name="q" value="{{ query }}" placeholder="Search services, places or businesses"><button>Search →</button></form></div>
+  <div class="listing-hero">
+    <span class="kicker">THE GOOD LIST</span>
+    <h1>Our recommendations</h1>
+    <form class="search compact"><span class="search-icon">⌕</span><input name="q" value="{{ query }}" placeholder="Search services, places or businesses"><button>Search →</button></form>
+  </div>
   <div class="filters"><a class="{% if not active_category %}active{% endif %}" href="{% url 'explore' %}{% if query %}?q={{ query }}{% endif %}">All</a>{% for cat in categories %}<a class="{% if active_category == cat.slug %}active{% endif %}" href="?category={{ cat.slug }}{% if query %}&q={{ query }}{% endif %}">{{ cat.name }}</a>{% endfor %}</div>
   <div class="results-head"><h2>{{ businesses|length }} trusted service{{ businesses|length|pluralize }}</h2><span>Every listing is a verified partner</span></div>
   <div class="cards explore-cards">{% for business in businesses %}<a class="card" href="{% url 'business_detail' business.slug %}"><div class="card-image" style="background-image:url('{{ business.image_url }}')"><span class="partner">✦ VERIFIED PARTNER</span></div><div class="card-body"><div class="card-cat">{{ business.category.name|upper }} · {{ business.location|upper }}</div><h3>{{ business.name }}</h3><p>{{ business.tagline }}</p><div class="meta"><span class="rating">★ {{ business.rating }} <i>({{ business.review_count }})</i></span><span>{{ business.price_label }}</span></div></div></a>{% empty %}<div class="empty"><h2>No matches yet.</h2><p>Try a broader search — the right island person may be one click away.</p></div>{% endfor %}</div>

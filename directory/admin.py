@@ -29,6 +29,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     fieldsets = (
         ("Identity", {"fields": ("site_name",)}),
         ("Homepage introduction", {"fields": ("hero_title", "intro", "hero_image", "hero_image_url", "trailer_url")}),
+        ("Who we are", {"fields": ("team_eyebrow", "team_title", "team_intro"), "description": "Edit the section heading here. Manage the people listed in this section under Team members."}),
         ("Contact", {"fields": ("contact_url",)}),
     )
 

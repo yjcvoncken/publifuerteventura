@@ -105,6 +105,9 @@ class SiteSettings(models.Model):
     hero_image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
     trailer_url = models.URLField(blank=True, help_text="YouTube, Vimeo or another external trailer link.")
     contact_url = models.URLField(blank=True, default="https://wa.me/")
+    team_eyebrow = models.CharField(max_length=60, default="WHO WE ARE")
+    team_title = models.CharField(max_length=160, default="People making connections happen.")
+    team_intro = models.TextField(max_length=320, default="A local, creative network connecting ideas, projects and people across Fuerteventura.")
 
     class Meta:
         verbose_name_plural = "Site settings"
