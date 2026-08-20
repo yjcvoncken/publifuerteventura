@@ -1,6 +1,6 @@
 # fuerte.
 
-A curated Fuerteventura service directory built with Django.
+A visual, self-managed showcase connecting Fuerteventura's portals, projects and people.
 
 ## Run locally
 
@@ -9,6 +9,10 @@ python3 -m pip install -r requirements.txt
 python3 manage.py migrate
 python3 manage.py runserver
 ```
+
+Open `/admin/` to manage homepage settings, showcase cards, sponsor banners and team profiles. Every showcase record supports ordering and an active/inactive switch. Images can be uploaded directly or supplied as external URLs.
+
+For production uploads, attach persistent storage at the configured `media/` directory (or replace Django's default storage with an object-storage backend). Uploaded files are served by Django in this first phase; move them to object storage/CDN as traffic grows. Railway's application filesystem is otherwise ephemeral.
 
 ## Deploy on Railway
 

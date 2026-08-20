@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from .models import BlogPost, Business, Category
+from .models import BlogPost, Business, Category, ShowcaseCard, SiteSettings, Sponsor, TeamMember
 from .forms import CommunityApplicationForm
 
 
@@ -11,9 +11,12 @@ def health(request):
     return JsonResponse({"status": "ok"})
 
 def home(request):
+    settings = SiteSettings.objects.first()
     return render(request, "directory/home.html", {
-        "categories": Category.objects.all(),
-        "featured": Business.objects.filter(featured=True)[:6],
+        "site_settings": settings,
+        "showcase_cards": ShowcaseCard.objects.filter(active=True),
+        "sponsors": Sponsor.objects.filter(active=True),
+        "team_members": TeamMember.objects.filter(active=True),
     })
 
 

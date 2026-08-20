@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
-from django.urls import path
+from django.urls import path, re_path
+from django.views.static import serve
 from directory import views
 
 urlpatterns = i18n_patterns(
@@ -17,3 +19,4 @@ urlpatterns = i18n_patterns(
 )
 
 urlpatterns += [path("health/", views.health, name="health")]
+urlpatterns += [re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT})]

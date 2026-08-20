@@ -2,12 +2,69 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.html import format_html
 
-from .models import BlogPost, Business, Category, CommunityApplication
+from .models import (
+    BlogPost, Business, Category, CommunityApplication, ShowcaseCard,
+    SiteSettings, Sponsor, TeamMember,
+)
 
 
 admin.site.site_header = "Publifuerteventura administration"
 admin.site.site_title = "Publifuerteventura admin"
-admin.site.index_title = "Directory management"
+admin.site.index_title = "Showcase management"
+
+
+class OrderedContentAdmin(admin.ModelAdmin):
+    list_display = ("title_or_name", "order", "active")
+    list_editable = ("order", "active")
+    list_filter = ("active",)
+    ordering = ("order",)
+
+    @admin.display(description="Content")
+    def title_or_name(self, obj):
+        return str(obj)
+
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ("Identity", {"fields": ("site_name",)}),
+        ("Homepage introduction", {"fields": ("hero_title", "intro", "hero_image", "hero_image_url", "trailer_url")}),
+        ("Contact", {"fields": ("contact_url",)}),
+    )
+
+    def has_add_permission(self, request):
+        return not SiteSettings.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(ShowcaseCard)
+class ShowcaseCardAdmin(OrderedContentAdmin):
+    search_fields = ("title", "short_text", "destination_url")
+    fieldsets = (
+        ("Card", {"fields": ("title", "short_text", "image", "image_url")}),
+        ("Click destination", {"fields": ("destination_url",)}),
+        ("Visibility and position", {"fields": ("order", "active")}),
+    )
+
+
+@admin.register(Sponsor)
+class SponsorAdmin(OrderedContentAdmin):
+    search_fields = ("name", "link")
+    fieldsets = (
+        ("Sponsor", {"fields": ("name", "image", "image_url", "link")}),
+        ("Visibility and position", {"fields": ("order", "active")}),
+    )
+
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(OrderedContentAdmin):
+    search_fields = ("name", "role", "bio")
+    fieldsets = (
+        ("Person or collaborator", {"fields": ("name", "role", "bio", "image", "image_url", "link")}),
+        ("Visibility and position", {"fields": ("order", "active")}),
+    )
 
 
 @admin.register(Category)

@@ -94,3 +94,67 @@ class CommunityApplication(models.Model):
 
     def __str__(self):
         return self.business_name
+
+
+class SiteSettings(models.Model):
+    site_name = models.CharField(max_length=80, default="PubliFuerteventura")
+    intro = models.TextField(max_length=280, default="Everything happening in Fuerteventura, in one place. Discover our portals, projects and people — then connect directly.")
+    hero_title = models.CharField(max_length=120, default="Fuerteventura, all connected.")
+    hero_image = models.FileField(upload_to="showcase/", blank=True)
+    hero_image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
+    trailer_url = models.URLField(blank=True, help_text="YouTube, Vimeo or another external trailer link.")
+    contact_url = models.URLField(blank=True, default="https://wa.me/")
+
+    class Meta:
+        verbose_name_plural = "Site settings"
+
+    def __str__(self):
+        return "Homepage settings"
+
+
+class ShowcaseCard(models.Model):
+    title = models.CharField(max_length=100)
+    short_text = models.CharField(max_length=180, blank=True)
+    image = models.FileField(upload_to="showcase/cards/", blank=True)
+    image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
+    destination_url = models.URLField(help_text="Website, WhatsApp, form or portal link.")
+    order = models.PositiveIntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ("order", "title")
+
+    def __str__(self):
+        return self.title
+
+
+class Sponsor(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.FileField(upload_to="showcase/sponsors/", blank=True)
+    image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
+    link = models.URLField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ("order", "name")
+
+    def __str__(self):
+        return self.name
+
+
+class TeamMember(models.Model):
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=160)
+    bio = models.TextField(max_length=400, blank=True)
+    image = models.FileField(upload_to="showcase/team/", blank=True)
+    image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
+    link = models.URLField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ("order", "name")
+
+    def __str__(self):
+        return self.name
