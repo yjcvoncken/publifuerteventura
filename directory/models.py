@@ -17,6 +17,7 @@ class Business(models.Model):
     description = models.TextField(blank=True)
     location = models.CharField(max_length=100)
     image_url = models.URLField()
+    website_url = models.URLField(blank=True, help_text="Direct website or booking link.")
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=5)
     review_count = models.PositiveIntegerField(default=0)
     price_label = models.CharField(max_length=40, blank=True)

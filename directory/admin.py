@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.html import format_html
 
 from .models import (
-    BlogPost, Business, Category, CommunityApplication, ShowcaseCard,
+    BlogPost, Business, Category, CommunityApplication,
     SiteSettings, Sponsor, TeamMember,
 )
 
@@ -37,16 +37,6 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-
-@admin.register(ShowcaseCard)
-class ShowcaseCardAdmin(OrderedContentAdmin):
-    search_fields = ("title", "short_text", "destination_url")
-    fieldsets = (
-        ("Card", {"fields": ("title", "short_text", "image", "image_url")}),
-        ("Click destination", {"fields": ("destination_url",)}),
-        ("Visibility and position", {"fields": ("order", "active")}),
-    )
 
 
 @admin.register(Sponsor)
@@ -92,7 +82,7 @@ class BusinessAdmin(admin.ModelAdmin):
     ordering = ("name",)
     fieldsets = (
         ("Business", {"fields": ("name", "slug", "category", "tagline", "description")}),
-        ("Location and presentation", {"fields": ("location", "image_url", "price_label")}),
+        ("Location and presentation", {"fields": ("location", "image_url", "website_url", "price_label")}),
         ("Trust signals", {"fields": ("rating", "review_count", "partner", "featured")}),
     )
 
