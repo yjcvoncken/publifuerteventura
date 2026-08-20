@@ -36,7 +36,19 @@ def explore(request):
         businesses = businesses.filter(Q(name__icontains=query) | Q(tagline__icontains=query) | Q(location__icontains=query))
     if category:
         businesses = businesses.filter(category__slug=category)
-    return render(request, "directory/explore.html", {"businesses": businesses, "categories": Category.objects.all(), "query": query, "active_category": category})
+    categories = Category.objects.all()
+    rows = []
+    for item in categories:
+        row_businesses = list(businesses.filter(category=item))
+        if row_businesses:
+            rows.append({"category": item, "businesses": row_businesses})
+    return render(request, "directory/explore.html", {
+        "businesses": businesses,
+        "business_rows": rows,
+        "categories": categories,
+        "query": query,
+        "active_category": category,
+    })
 
 def blog_archive(request):
     posts = BlogPost.objects.filter(
