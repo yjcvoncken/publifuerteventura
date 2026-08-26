@@ -49,7 +49,15 @@ class Business(models.Model):
     def display_logo_url(self):
         if self.logo:
             return self.logo.url
-        return self.logo_url or self.image_url
+        if self.logo_url:
+            return self.logo_url
+        transparent_logos = {
+            "corralejo-info": "img/business-logos/corralejo-info.png",
+            "coworking-punto": "img/business-logos/coworking-punto.png",
+        }
+        if self.slug in transparent_logos:
+            return static(transparent_logos[self.slug])
+        return self.image_url
 
 
 class BlogPost(models.Model):

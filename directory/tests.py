@@ -33,3 +33,5 @@ class NavigationPageTests(TestCase):
         business = Business.objects.get(slug="the-remote-escape")
         self.assertIn("business-covers/the-remote-escape", business.display_cover_url)
         self.assertEqual(business.display_logo_url, business.image_url)
+        corralejo = Business.objects.get(slug="corralejo-info")
+        self.assertIn("business-logos/corralejo-info", corralejo.display_logo_url)

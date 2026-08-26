@@ -1,8 +1,10 @@
 .showcase-card-cover,.stream-card-image{background-color:#0B5D6A;background-position:center;background-repeat:no-repeat;background-size:cover}
-.business-card-logo{position:absolute;z-index:4;top:16px;left:16px;width:68px;height:48px;padding:7px;display:grid;place-items:center;background:rgba(255,255,255,.94);border:1px solid rgba(8,62,73,.1);border-radius:8px;box-shadow:0 8px 24px rgba(5,40,50,.16)}
-.business-card-logo img{display:block;width:100%;height:100%;object-fit:contain}
-.stream-card-logo{top:14px;left:14px;width:62px;height:44px}
+.business-card-logo{position:absolute;z-index:4;top:16px;left:16px;width:104px;height:44px;display:grid;place-items:center;background:transparent}
+.business-card-logo img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(5,40,50,.38))}
+.stream-card-logo{top:14px;left:14px;width:94px;height:40px}
 .showcase-card .showcase-card-shade{background:linear-gradient(0deg,rgba(5,40,50,.94) 0%,rgba(5,40,50,.55) 38%,transparent 72%)}
 .showcase-card:hover .showcase-card-shade,.showcase-card:focus-visible .showcase-card-shade{opacity:1}
 .stream-card-overlay{background:linear-gradient(0deg,rgba(5,40,50,.96) 0%,rgba(5,40,50,.6) 46%,transparent 88%)}
-@media(hover:none),(max-width:700px){.business-card-logo{top:12px;left:12px;width:56px;height:40px;padding:6px}.showcase-card-cover,.stream-card-image{background-position:center}.showcase-card .showcase-card-shade{background:linear-gradient(0deg,rgba(5,40,50,.97) 0%,rgba(5,40,50,.68) 40%,transparent 72%)}.stream-card-overlay{background:linear-gradient(0deg,rgba(5,40,50,.96),rgba(5,40,50,.4) 65%,transparent)}}
+.showcase-card-cover,.stream-card-image{transition:transform .5s,filter .3s}
+.showcase-card:hover .showcase-card-cover,.showcase-card:focus-visible .showcase-card-cover,.stream-card:hover .stream-card-image,.stream-card:focus-visible .stream-card-image{filter:brightness(.68) saturate(.9)}
+@media(hover:none),(max-width:700px){.business-card-logo{top:12px;left:12px;width:84px;height:36px}.showcase-card-cover,.stream-card-image{background-position:center}.showcase-card .showcase-card-shade{background:linear-gradient(0deg,rgba(5,40,50,.97) 0%,rgba(5,40,50,.68) 40%,transparent 72%)}.stream-card-overlay{background:linear-gradient(0deg,rgba(5,40,50,.96),rgba(5,40,50,.4) 65%,transparent)}.showcase-card:hover .showcase-card-cover,.showcase-card:focus-visible .showcase-card-cover,.stream-card:hover .stream-card-image,.stream-card:focus-visible .stream-card-image{filter:none}}
