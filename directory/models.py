@@ -142,6 +142,8 @@ class Sponsor(models.Model):
 
     class Meta:
         ordering = ("order", "name")
+        verbose_name = "Collaboration"
+        verbose_name_plural = "Collaborations"
 
     def __str__(self):
         return self.name

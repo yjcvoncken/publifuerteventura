@@ -19,13 +19,26 @@ def home(request):
     return render(request, "directory/home.html", {
         "site_settings": settings,
         "featured_businesses": Business.objects.select_related("category").filter(featured=True, partner=True)[:8],
-        "sponsors": Sponsor.objects.filter(active=True),
+        "collaborations": Sponsor.objects.filter(active=True),
         "team_members": TeamMember.objects.filter(active=True),
     })
 
 
 def pricing(request):
     return render(request, "directory/pricing.html")
+
+
+def collaborations(request):
+    return render(request, "directory/collaborations.html", {
+        "collaborations": Sponsor.objects.filter(active=True),
+    })
+
+
+def about(request):
+    return render(request, "directory/about.html", {
+        "site_settings": SiteSettings.objects.first(),
+        "team_members": TeamMember.objects.filter(active=True),
+    })
 
 
 def explore(request):

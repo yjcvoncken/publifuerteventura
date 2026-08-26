@@ -1,0 +1,25 @@
+{% extends 'directory/base.html' %}
+{% block title %}Collaborations · Publi News{% endblock %}
+{% block meta_description %}Meet the businesses, organisations and creative partners collaborating with Publi News in Fuerteventura.{% endblock %}
+{% block content %}
+<main class="editorial-page collaborations-page">
+  <header class="editorial-hero">
+    <span class="showcase-label dark">TOGETHER ON THE ISLAND</span>
+    <h1>Better things happen through collaboration.</h1>
+    <p>Meet the businesses, organisations and creative people helping us connect Fuerteventura.</p>
+  </header>
+  <section class="collaboration-grid" aria-label="Our collaborations">
+    {% for collaboration in collaborations %}
+      {% if collaboration.link %}<a class="collaboration-card" href="{{ collaboration.link }}" target="_blank" rel="noopener">{% else %}<article class="collaboration-card">{% endif %}
+        <span class="collaboration-number">{{ forloop.counter|stringformat:"02d" }}</span>
+        <div class="collaboration-identity">
+          {% if collaboration.image %}<img src="{{ collaboration.image.url }}" alt="{{ collaboration.name }}">{% elif collaboration.image_url %}<img src="{{ collaboration.image_url }}" alt="{{ collaboration.name }}">{% else %}<strong>{{ collaboration.name }}</strong>{% endif %}
+        </div>
+        <div class="collaboration-footer"><span>{{ collaboration.name }}</span>{% if collaboration.link %}<b>↗</b>{% endif %}</div>
+      {% if collaboration.link %}</a>{% else %}</article>{% endif %}
+    {% empty %}
+      <div class="editorial-empty"><h2>New collaborations are coming.</h2><p>Our network is growing across Fuerteventura.</p></div>
+    {% endfor %}
+  </section>
+</main>
+{% endblock %}

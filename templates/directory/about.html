@@ -1,0 +1,29 @@
+{% extends 'directory/base.html' %}
+{% block title %}Who we are · Publi News{% endblock %}
+{% block meta_description %}Meet the local team and discover the idea behind Publi News in Fuerteventura.{% endblock %}
+{% block content %}
+<main class="editorial-page about-page">
+  <header class="editorial-hero about-hero">
+    <span class="showcase-label dark">{{ site_settings.team_eyebrow|default:"WHO WE ARE" }}</span>
+    <h1>{{ site_settings.team_title|default:"People making connections happen." }}</h1>
+    <p>{{ site_settings.team_intro|default:"A local, creative network connecting ideas, projects and people across Fuerteventura." }}</p>
+  </header>
+  <section class="about-statement">
+    <span>OUR PURPOSE</span>
+    <p>We make the island easier to discover. Publi News brings useful businesses, fresh ideas and local stories together in one thoughtfully curated place.</p>
+  </section>
+  <section class="team-editorial" aria-label="Our team">
+    {% for person in team_members %}
+      {% if person.link %}<a class="team-profile" href="{{ person.link }}" target="_blank" rel="noopener">{% else %}<article class="team-profile">{% endif %}
+        <div class="team-profile-photo"{% if person.image %} style="background-image:url('{{ person.image.url }}')"{% elif person.image_url %} style="background-image:url('{{ person.image_url }}')"{% endif %}><span>{{ person.name|slice:':1' }}</span></div>
+        <span class="team-index">{{ forloop.counter|stringformat:"02d" }}</span>
+        <h2>{{ person.name }}</h2>
+        <p class="team-role">{{ person.role }}</p>
+        {% if person.bio %}<p class="team-bio">{{ person.bio }}</p>{% endif %}
+      {% if person.link %}</a>{% else %}</article>{% endif %}
+    {% empty %}
+      <div class="editorial-empty"><h2>Meet the team soon.</h2><p>Team profiles are being prepared.</p></div>
+    {% endfor %}
+  </section>
+</main>
+{% endblock %}
