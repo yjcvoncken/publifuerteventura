@@ -1,14 +1,44 @@
 from django.db.models import Q
+import hashlib
+import json
+
+from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
-from .models import BlogPost, Business, Category, SiteSettings, Sponsor, TeamMember
+from .models import AnalyticsPageView, BlogPost, Business, Category, SiteSettings, Sponsor, TeamMember
 from .forms import CommunityApplicationForm
 
 
 def health(request):
     return JsonResponse({"status": "ok"})
+
+
+@csrf_exempt
+@require_POST
+def analytics_page_view(request):
+    if request.COOKIES.get("publifuerte_cookie_choice") != "accepted":
+        return JsonResponse({}, status=204)
+    try:
+        payload = json.loads(request.body or b"{}")
+    except (TypeError, ValueError):
+        return JsonResponse({"error": "invalid payload"}, status=400)
+    path = str(payload.get("path", ""))[:300]
+    if not path.startswith("/") or path.startswith(("/admin/", "/static/", "/media/")):
+        return JsonResponse({}, status=204)
+    anonymous_id = str(payload.get("session", ""))[:100]
+    session_hash = hashlib.sha256(
+        f"{settings.SECRET_KEY}:{anonymous_id}".encode()
+    ).hexdigest() if anonymous_id else ""
+    AnalyticsPageView.objects.create(
+        path=path,
+        language=str(payload.get("language", ""))[:8],
+        session_hash=session_hash,
+    )
+    return JsonResponse({"recorded": True}, status=201)
 
 def privacy_policy(request): return render(request, "directory/privacy_policy.html")
 def cookie_policy(request): return render(request, "directory/cookie_policy.html")

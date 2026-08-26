@@ -199,3 +199,18 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class AnalyticsPageView(models.Model):
+    path = models.CharField(max_length=300)
+    language = models.CharField(max_length=8, blank=True)
+    session_hash = models.CharField(max_length=64, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ("-created_at",)
+        verbose_name = "Analytics page view"
+        verbose_name_plural = "Analytics"
+
+    def __str__(self):
+        return f"{self.path} · {self.created_at:%Y-%m-%d %H:%M}"

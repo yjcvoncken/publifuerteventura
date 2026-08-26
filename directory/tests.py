@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import translation
 
-from .models import Business
+from .models import AnalyticsPageView, Business
 
 
 @override_settings(STORAGES={
@@ -36,3 +37,23 @@ class NavigationPageTests(TestCase):
         self.assertEqual(business.display_logo_url, business.image_url)
         corralejo = Business.objects.get(slug="corralejo-info")
         self.assertIn("business-logos/corralejo-info", corralejo.display_logo_url)
+
+    def test_analytics_requires_consent_and_hashes_session(self):
+        endpoint = reverse("analytics_page_view")
+        payload = {"path": "/about/", "language": "en", "session": "anonymous-test"}
+        self.client.cookies["publifuerte_cookie_choice"] = "essential"
+        self.client.post(endpoint, payload, content_type="application/json", secure=True)
+        self.assertEqual(AnalyticsPageView.objects.count(), 0)
+        self.client.cookies["publifuerte_cookie_choice"] = "accepted"
+        response = self.client.post(endpoint, payload, content_type="application/json", secure=True)
+        self.assertEqual(response.status_code, 201)
+        page_view = AnalyticsPageView.objects.get()
+        self.assertEqual(page_view.path, "/about/")
+        self.assertNotEqual(page_view.session_hash, "anonymous-test")
+
+    def test_analytics_dashboard_renders_in_admin(self):
+        admin_user = get_user_model().objects.create_superuser("analytics-admin", "admin@example.com", "test-password")
+        self.client.force_login(admin_user)
+        response = self.client.get(reverse("admin:directory_analyticspageview_changelist"), secure=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "All-time views")

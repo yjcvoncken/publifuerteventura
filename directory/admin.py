@@ -1,9 +1,12 @@
+from datetime import timedelta
+
 from django.contrib import admin
+from django.db.models import Count
 from django.utils import timezone
 from django.utils.html import format_html
 
 from .models import (
-    BlogPost, Business, Category, CommunityApplication,
+    AnalyticsPageView, BlogPost, Business, Category, CommunityApplication,
     SiteSettings, Sponsor, TeamMember,
 )
 
@@ -75,6 +78,7 @@ class BusinessAdmin(admin.ModelAdmin):
     list_display = (
         "name", "category", "location", "rating", "featured", "partner"
     )
+
     list_filter = ("partner", "featured", "category", "location")
     search_fields = ("name", "tagline", "description", "location")
     prepopulated_fields = {"slug": ("name",)}
@@ -88,6 +92,33 @@ class BusinessAdmin(admin.ModelAdmin):
         ("Location and link", {"fields": ("location", "website_url", "price_label")}),
         ("Trust signals", {"fields": ("rating", "review_count", "partner", "featured")}),
     )
+
+
+@admin.register(AnalyticsPageView)
+class AnalyticsPageViewAdmin(admin.ModelAdmin):
+    change_list_template = "admin/directory/analyticspageview/change_list.html"
+    list_display = ("path", "language", "created_at")
+    list_filter = ("language", "created_at")
+    search_fields = ("path",)
+    date_hierarchy = "created_at"
+    ordering = ("-created_at",)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        last_30_days = timezone.now() - timedelta(days=30)
+        recent = AnalyticsPageView.objects.filter(created_at__gte=last_30_days)
+        dashboard = {
+            "total_views": AnalyticsPageView.objects.count(),
+            "recent_views": recent.count(),
+            "recent_sessions": recent.exclude(session_hash="").values("session_hash").distinct().count(),
+            "top_pages": list(recent.values("path").annotate(views=Count("id")).order_by("-views")[:8]),
+        }
+        return super().changelist_view(request, {**(extra_context or {}), **dashboard})
 
 
 @admin.register(BlogPost)

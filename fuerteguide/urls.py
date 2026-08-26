@@ -5,7 +5,9 @@ from django.urls import path, re_path
 from django.views.static import serve
 from directory import views
 
-urlpatterns = i18n_patterns(
+urlpatterns = [path("analytics/page-view/", views.analytics_page_view, name="analytics_page_view")]
+
+urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),
     path("pricing/", views.pricing, name="pricing"),

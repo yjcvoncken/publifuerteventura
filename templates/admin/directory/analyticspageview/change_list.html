@@ -1,0 +1,10 @@
+{% extends "admin/change_list.html" %}
+{% block content %}
+<section class="analytics-dashboard" aria-label="Analytics summary">
+  <div><span>All-time views</span><strong>{{ total_views }}</strong></div>
+  <div><span>Last 30 days</span><strong>{{ recent_views }}</strong></div>
+  <div><span>Sessions · 30 days</span><strong>{{ recent_sessions }}</strong></div>
+</section>
+{% if top_pages %}<section class="analytics-top-pages"><h2>Top pages · last 30 days</h2><ol>{% for page in top_pages %}<li><span>{{ page.path }}</span><strong>{{ page.views }}</strong></li>{% endfor %}</ol></section>{% endif %}
+{{ block.super }}
+{% endblock %}
