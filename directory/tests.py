@@ -23,6 +23,7 @@ class NavigationPageTests(TestCase):
             self.assertContains(response, reverse("collaborations"))
             self.assertContains(response, reverse("about"))
             self.assertContains(response, "Collaborations")
+            self.assertContains(response, "https://wa.me/34608908555")
 
     def test_localized_new_pages_render(self):
         for path in ("/es/collaborations/", "/es/about/"):
