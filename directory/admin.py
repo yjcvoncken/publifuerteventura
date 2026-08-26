@@ -44,7 +44,7 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 class SponsorAdmin(OrderedContentAdmin):
     search_fields = ("name", "link")
     fieldsets = (
-        ("Collaboration", {"fields": ("name", "image", "image_url", "link")}),
+        ("Collaboration", {"fields": ("name", "description", "image", "image_url", "link")}),
         ("Visibility and position", {"fields": ("order", "active")}),
     )
 

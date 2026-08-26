@@ -70,6 +70,7 @@ COPY.update({
     "Meet the businesses, organisations and creative people helping us connect Fuerteventura.": ("Conoce las empresas, organizaciones y personas creativas que nos ayudan a conectar Fuerteventura.", "Scopri le aziende, le organizzazioni e le persone creative che ci aiutano a connettere Fuerteventura."),
     "New collaborations are coming.": ("Pronto llegarán nuevas colaboraciones.", "Nuove collaborazioni sono in arrivo."),
     "Our network is growing across Fuerteventura.": ("Nuestra red sigue creciendo en Fuerteventura.", "La nostra rete continua a crescere a Fuerteventura."),
+    "Part of the Publi News collaboration network in Fuerteventura.": ("Parte de la red de colaboraciones de Publi News en Fuerteventura.", "Parte della rete di collaborazioni di Publi News a Fuerteventura."),
     "OUR PURPOSE": ("NUESTRO PROPÓSITO", "IL NOSTRO SCOPO"),
     "We make the island easier to discover. Publi News brings useful businesses, fresh ideas and local stories together in one thoughtfully curated place.": ("Hacemos que descubrir la isla sea más fácil. Publi News reúne negocios útiles, ideas nuevas e historias locales en un espacio cuidadosamente seleccionado.", "Rendiamo l'isola più facile da scoprire. Publi News riunisce attività utili, nuove idee e storie locali in uno spazio curato con attenzione."),
     "Meet the team soon.": ("Conoce pronto al equipo.", "Presto potrai conoscere il team."),

@@ -1,0 +1,18 @@
+.collaboration-description{margin:0 0 22px;font-size:13px;line-height:1.65;opacity:.72}
+
+@media (hover:none),(max-width:700px){
+  .showcase-card .showcase-card-shade{opacity:1;background:linear-gradient(0deg,rgba(5,40,50,.96) 0%,rgba(5,40,50,.72) 36%,transparent 68%)}
+  .showcase-card .showcase-card-copy,.showcase-card .card-arrow{opacity:1;transform:none}
+  .showcase-card .business-logo-image{background-position:center 30%;background-size:52% auto}
+  .showcase-card-copy{bottom:20px}
+  .showcase-card-copy p{display:block;margin-top:8px;line-height:1.5}
+  .reference-business-card{min-height:390px;justify-content:flex-start}
+  .reference-business-details{position:static;margin:22px -10px -10px;padding:20px;background:#E4F4F2;color:#0B5D6A;opacity:1;transform:none}
+  .reference-business-shell:nth-child(odd) .reference-business-details{background:#fff}
+  .reference-business-details p{color:#567A8E}
+  .collaboration-card{min-height:410px}
+  .collaboration-card:hover{background:#fff;color:var(--ink)}
+  .collaboration-identity{min-height:190px;padding:24px 30px}
+  .collaboration-identity img{width:min(230px,86%);height:125px}
+  .collaboration-description{display:block;margin:0 0 24px;opacity:.78}
+}

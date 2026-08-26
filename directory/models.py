@@ -134,6 +134,7 @@ class ShowcaseCard(models.Model):
 
 class Sponsor(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(max_length=300, blank=True, help_text="Short description shown on the collaborations page.")
     image = models.FileField(upload_to="showcase/sponsors/", blank=True)
     image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
     link = models.URLField(blank=True)
