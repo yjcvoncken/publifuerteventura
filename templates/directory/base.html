@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{% static 'css/typography.css' %}">
   <link rel="stylesheet" href="{% static 'css/editorial-pages.css' %}">
   <link rel="stylesheet" href="{% static 'css/mobile-cards.css' %}">
+  <link rel="stylesheet" href="{% static 'css/business-card-covers.css' %}">
 </head>
 <body>
   <header class="nav showcase-nav"><a class="brand brand-lockup" href="{% url 'home' %}" aria-label="PubliFuerteventura home"><span class="island-logo"><img src="{% static 'img/fuerteventura-mark.svg' %}" alt=""></span><span class="brand-name">publifuerteventura</span></a><nav id="main-navigation"><a href="{% url 'explore' %}">Discover</a><a href="{% url 'collaborations' %}">Collaborations</a><a href="{% url 'about' %}">Who we are</a><a href="{% url 'blog_archive' %}">Journal</a></nav><div class="language-switch" aria-label="Language"><a href="{{ language_paths.en }}"{% if request.LANGUAGE_CODE|slice:':2' == 'en' %} class="active" aria-current="page"{% endif %}>EN</a><a href="{{ language_paths.es }}"{% if request.LANGUAGE_CODE|slice:':2' == 'es' %} class="active" aria-current="page"{% endif %}>ES</a></div><a class="nav-cta" href="{% url 'admin:index' %}">Manage content <span>↗</span></a><button class="menu" type="button" aria-label="Open menu" aria-controls="main-navigation" aria-expanded="false">☰</button></header>

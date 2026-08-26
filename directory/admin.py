@@ -83,7 +83,9 @@ class BusinessAdmin(admin.ModelAdmin):
     ordering = ("name",)
     fieldsets = (
         ("Business", {"fields": ("name", "slug", "category", "tagline", "description")}),
-        ("Location and presentation", {"fields": ("location", "image_url", "website_url", "price_label")}),
+        ("Cover image", {"fields": ("cover_image", "cover_image_url"), "description": "Large full-card photograph. Upload an image or provide an external URL."}),
+        ("Logo", {"fields": ("logo", "logo_url", "image_url"), "description": "Small business logo displayed over the cover. The legacy URL keeps existing logos working."}),
+        ("Location and link", {"fields": ("location", "website_url", "price_label")}),
         ("Trust signals", {"fields": ("rating", "review_count", "partner", "featured")}),
     )
 

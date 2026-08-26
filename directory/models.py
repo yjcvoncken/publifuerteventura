@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.templatetags.static import static
 from django.utils import timezone
 
 class Category(models.Model):
@@ -16,7 +17,11 @@ class Business(models.Model):
     tagline = models.CharField(max_length=180)
     description = models.TextField(blank=True)
     location = models.CharField(max_length=100)
-    image_url = models.URLField()
+    image_url = models.URLField("legacy logo URL", blank=True, help_text="Existing logo fallback. Prefer the dedicated logo fields below.")
+    cover_image = models.FileField(upload_to="businesses/covers/", blank=True)
+    cover_image_url = models.URLField(blank=True, help_text="Optional external cover image URL.")
+    logo = models.FileField(upload_to="businesses/logos/", blank=True)
+    logo_url = models.URLField(blank=True, help_text="Optional external logo URL.")
     website_url = models.URLField(blank=True, help_text="Direct website or booking link.")
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=5)
     review_count = models.PositiveIntegerField(default=0)
@@ -24,6 +29,27 @@ class Business(models.Model):
     featured = models.BooleanField(default=False)
     partner = models.BooleanField(default=True)
     def __str__(self): return self.name
+
+    @property
+    def display_cover_url(self):
+        if self.cover_image:
+            return self.cover_image.url
+        if self.cover_image_url:
+            return self.cover_image_url
+        generated_covers = {
+            "the-remote-escape": "img/business-covers/the-remote-escape.webp",
+            "corralejo-info": "img/business-covers/corralejo-info.webp",
+            "coworking-punto": "img/business-covers/coworking-punto.webp",
+        }
+        if self.slug in generated_covers:
+            return static(generated_covers[self.slug])
+        return self.image_url
+
+    @property
+    def display_logo_url(self):
+        if self.logo:
+            return self.logo.url
+        return self.logo_url or self.image_url
 
 
 class BlogPost(models.Model):

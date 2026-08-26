@@ -2,6 +2,8 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import translation
 
+from .models import Business
+
 
 @override_settings(STORAGES={
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
@@ -26,3 +28,8 @@ class NavigationPageTests(TestCase):
         for path in ("/es/collaborations/", "/es/about/"):
             with self.subTest(path=path):
                 self.assertEqual(self.client.get(path, secure=True).status_code, 200)
+
+    def test_current_business_uses_generated_cover_and_separate_logo(self):
+        business = Business.objects.get(slug="the-remote-escape")
+        self.assertIn("business-covers/the-remote-escape", business.display_cover_url)
+        self.assertEqual(business.display_logo_url, business.image_url)
