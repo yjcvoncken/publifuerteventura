@@ -2,5 +2,5 @@
 {% load static %}
 {% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | Publifuerteventura admin{% endblock %}
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/admin-canary.css' %}">{% endblock %}
-{% block branding %}<div id="site-name"><a href="{% url 'admin:index' %}"><img src="{% static 'img/fuerteventura-mark.svg' %}" alt=""><span>publifuerteventura</span><small>ADMINISTRATION</small></a></div>{% endblock %}
+{% block branding %}<div id="site-name"><a href="{% url 'admin:index' %}"><img src="{% static 'img/publi-news.png' %}" alt="Publi News"><span>Publi News</span><small>ADMINISTRATION</small></a></div>{% endblock %}
 {% block nav-global %}{% endblock %}
