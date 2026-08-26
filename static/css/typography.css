@@ -1,0 +1,4 @@
+@font-face{font-family:"Pirou";src:url("../fonts/Pirou-Regular.otf") format("opentype");font-style:normal;font-weight:400;font-display:swap}
+:root{--font-display:"Pirou","DM Serif Display",Georgia,serif}
+h1,h2,.price{text-wrap:balance;font-weight:400;letter-spacing:.01em}
+.showcase-hero h1,.journal-header h1,.article-header h1,.pricing-header h1,.stream-hero h1,.community-intro h1,.legal-page h1{letter-spacing:.015em}
