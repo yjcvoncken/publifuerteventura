@@ -2,6 +2,8 @@ from pathlib import Path
 import os
 import sys
 
+from django.core.exceptions import ImproperlyConfigured
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR / ".vendor"))
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-fuerteguide-key")
@@ -37,9 +39,20 @@ TEMPLATES = [{
     ]},
 }]
 WSGI_APPLICATION = "fuerteguide.wsgi.application"
-if os.environ.get("DATABASE_URL"):
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+if DATABASE_URL:
     import dj_database_url
-    DATABASES = {"default": dj_database_url.config(conn_max_age=600, conn_health_checks=True, ssl_require=not DEBUG)}
+    DATABASES = {"default": dj_database_url.parse(
+        DATABASE_URL,
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=not DEBUG,
+    )}
+elif not DEBUG:
+    raise ImproperlyConfigured(
+        "DATABASE_URL is required when DEBUG=False. Connect the Railway PostgreSQL "
+        "service with DATABASE_URL=${{Postgres.DATABASE_URL}}; SQLite on Railway is ephemeral."
+    )
 else:
     DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
 AUTH_PASSWORD_VALIDATORS = []
@@ -52,7 +65,14 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
+RAILWAY_VOLUME_MOUNT_PATH = os.environ.get("RAILWAY_VOLUME_MOUNT_PATH", "").strip()
+# Database records live in PostgreSQL. User-uploaded files live on the attached
+# Railway volume so their paths and the files they reference both survive deploys.
+MEDIA_ROOT = (
+    Path(RAILWAY_VOLUME_MOUNT_PATH) / "media"
+    if RAILWAY_VOLUME_MOUNT_PATH
+    else BASE_DIR / "media"
+)
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
