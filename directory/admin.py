@@ -140,7 +140,7 @@ class BlogPostAdmin(admin.ModelAdmin):
     @admin.display(description="Public page")
     def view_post(self, post):
         if post.status == post.Status.PUBLISHED and post.published_at <= timezone.now():
-            return format_html('<a href="{}" target="_blank">View ↗</a>', post.get_absolute_url())
+            return format_html('<a href="{}">View ↗</a>', post.get_absolute_url())
         return "—"
 
     @admin.action(description="Publish selected posts now")

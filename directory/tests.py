@@ -28,6 +28,15 @@ class NavigationPageTests(TestCase):
             self.assertContains(response, "Collaborations")
             self.assertContains(response, "https://wa.me/34608908555")
 
+    def test_public_links_do_not_open_new_tabs(self):
+        for name in (
+            "home", "explore", "events", "collaborations", "about",
+            "blog_archive", "privacy_policy", "cookie_policy", "terms",
+        ):
+            with self.subTest(name=name):
+                response = self.client.get(reverse(name), secure=True)
+                self.assertNotContains(response, 'target="_blank"')
+
     def test_localized_new_pages_render(self):
         for path in ("/es/events/", "/es/collaborations/", "/es/about/"):
             with self.subTest(path=path):

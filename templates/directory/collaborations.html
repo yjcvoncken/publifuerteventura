@@ -10,7 +10,7 @@
   </header>
   <section class="collaboration-grid" aria-label="Our collaborations">
     {% for collaboration in collaborations %}
-      {% if collaboration.link %}<a class="collaboration-card" href="{{ collaboration.link }}" target="_blank" rel="noopener">{% else %}<article class="collaboration-card">{% endif %}
+      {% if collaboration.link %}<a class="collaboration-card" href="{{ collaboration.link }}">{% else %}<article class="collaboration-card">{% endif %}
         <span class="collaboration-number">{{ forloop.counter|stringformat:"02d" }}</span>
         <div class="collaboration-identity">
           {% if collaboration.image %}<img src="{{ collaboration.image.url }}" alt="{{ collaboration.name }}">{% elif collaboration.image_url %}<img src="{{ collaboration.image_url }}" alt="{{ collaboration.name }}">{% else %}<strong>{{ collaboration.name }}</strong>{% endif %}

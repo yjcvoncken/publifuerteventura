@@ -14,7 +14,7 @@
   </section>
   <section class="team-editorial" aria-label="Our team">
     {% for person in team_members %}
-      {% if person.link %}<a class="team-profile" href="{{ person.link }}" target="_blank" rel="noopener">{% else %}<article class="team-profile">{% endif %}
+      {% if person.link %}<a class="team-profile" href="{{ person.link }}">{% else %}<article class="team-profile">{% endif %}
         <div class="team-profile-photo"{% if person.image %} style="background-image:url('{{ person.image.url }}')"{% elif person.image_url %} style="background-image:url('{{ person.image_url }}')"{% endif %}><span>{{ person.name|slice:':1' }}</span></div>
         <span class="team-index">{{ forloop.counter|stringformat:"02d" }}</span>
         <h2>{{ person.name }}</h2>
