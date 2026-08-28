@@ -26,9 +26,11 @@ class Business(models.Model):
     logo = models.FileField(upload_to="businesses/logos/", blank=True)
     logo_url = models.URLField(blank=True, help_text="Optional external logo URL.")
     website_url = models.URLField(blank=True, help_text="Direct website or booking link.")
-    rating = models.DecimalField(max_digits=2, decimal_places=1, default=5)
-    review_count = models.PositiveIntegerField(default=0)
-    price_label = models.CharField(max_length=40, blank=True)
+    price_label = models.CharField(
+        max_length=40,
+        blank=True,
+        help_text="Optional short price note, such as 'From €25' or 'Free'. It is not currently displayed on the website.",
+    )
     featured = models.BooleanField(default=False)
     partner = models.BooleanField(default=True)
     homepage_size = models.PositiveSmallIntegerField(

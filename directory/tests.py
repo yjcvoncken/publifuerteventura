@@ -64,18 +64,35 @@ class NavigationPageTests(TestCase):
         self.assertIn("business-logos/corralejo-info", corralejo.display_logo_url)
 
     def test_admin_selected_homepage_card_size_is_rendered(self):
-        business = Business.objects.get(slug="the-remote-escape")
-        business.featured = True
-        business.partner = True
-        business.homepage_size = Business.HomepageSize.LARGE
-        business.save()
+        Business.objects.update(homepage_size=Business.HomepageSize.LARGE)
         response = self.client.get(reverse("home"), secure=True)
         self.assertContains(response, "showcase-card-size-1")
 
-        business.homepage_size = Business.HomepageSize.SMALL
-        business.save()
+        Business.objects.update(homepage_size=Business.HomepageSize.SMALL)
         response = self.client.get(reverse("home"), secure=True)
         self.assertContains(response, "showcase-card-size-2")
+
+    def test_homepage_chooses_exactly_three_from_all_businesses(self):
+        # Featured/partner flags do not limit the random homepage selection.
+        Business.objects.update(featured=False, partner=False)
+        response = self.client.get(reverse("home"), secure=True)
+        selected = list(response.context["featured_businesses"])
+        self.assertEqual(len(selected), 3)
+        self.assertEqual(len({business.pk for business in selected}), 3)
+
+    def test_homepage_business_selection_changes_order(self):
+        selections = {
+            tuple(business.pk for business in self.client.get(
+                reverse("home"), secure=True
+            ).context["featured_businesses"])
+            for _ in range(12)
+        }
+        self.assertGreater(len(selections), 1)
+
+    def test_business_ratings_are_removed(self):
+        field_names = {field.name for field in Business._meta.fields}
+        self.assertNotIn("rating", field_names)
+        self.assertNotIn("review_count", field_names)
 
     def test_collaboration_uses_explore_style_cover_and_logo(self):
         collaboration = Sponsor.objects.create(

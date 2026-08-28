@@ -92,8 +92,7 @@ class BusinessAdmin(admin.ModelAdmin):
         ("Cover image", {"fields": ("cover_image", "cover_image_url"), "description": "Large full-card photograph. Upload an image or provide an external URL."}),
         ("Logo", {"fields": ("logo", "logo_url", "image_url"), "description": "Small business logo displayed over the cover. The legacy URL keeps existing logos working."}),
         ("Location and link", {"fields": ("location", "website_url", "price_label")}),
-        ("Homepage display", {"fields": ("featured", "homepage_size"), "description": "Choose whether this featured business uses a large (1) or small (2) card on the homepage."}),
-        ("Trust signals", {"fields": ("rating", "review_count", "partner")}),
+        ("Homepage display", {"fields": ("featured", "homepage_size", "partner"), "description": "Choose whether this featured business uses a large (1) or small (2) card on the homepage."}),
     )
 
 
