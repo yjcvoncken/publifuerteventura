@@ -38,6 +38,8 @@ class NavigationPageTests(TestCase):
         self.assertContains(response, "calendar.google.com/calendar/embed?")
         self.assertContains(response, "events%40example.com")
         self.assertContains(response, "Atlantic%2FCanary")
+        self.assertContains(response, "mode=AGENDA")
+        self.assertContains(response, "showTabs=0")
 
     def test_current_business_uses_generated_cover_and_separate_logo(self):
         business = Business.objects.get(slug="the-remote-escape")

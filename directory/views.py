@@ -70,6 +70,8 @@ def events(request):
             "showPrint": 0,
             "showCalendars": 0,
             "showTz": 0,
+            "showTabs": 0,
+            "mode": "AGENDA",
         })
     return render(request, "directory/events.html", {
         "calendar_embed_url": calendar_embed_url,
