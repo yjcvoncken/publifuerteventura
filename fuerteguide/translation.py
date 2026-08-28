@@ -8,7 +8,6 @@ COPY = {
     "Made with care in Fuerteventura": ("Hecho con cariño en Fuerteventura", "Creato con cura a Fuerteventura"),
     "From the makers of corralejo.info": ("De los creadores de corralejo.info", "Dai creatori di corralejo.info"),
     "Explore": ("Explorar", "Esplora"),
-    "Join the community": ("Únete a la comunidad", "Unisciti alla community"),
     "LOCAL PEOPLE. GOOD THINGS.": ("GENTE LOCAL. BUENAS COSAS.", "PERSONE LOCALI. BELLE COSE."),
     "The island,": ("La isla,", "L'isola,"), "unlocked.": ("a tu alcance.", "a portata di mano."),
     "Find the people and places that make Fuerteventura work — tried, trusted and right here when you need them.": ("Encuentra a las personas y lugares que hacen funcionar Fuerteventura: de confianza y disponibles cuando los necesitas.", "Trova le persone e i luoghi che fanno funzionare Fuerteventura: affidabili e disponibili quando servono."),
@@ -47,17 +46,8 @@ COPY = {
     "POPULAR": ("POPULAR", "POPOLARE"), "TAILORED REACH": ("ALCANCE A MEDIDA", "VISIBILITÀ SU MISURA"),
     "GOOD TO KNOW": ("CONVIENE SABER", "DA SAPERE"), "Questions before joining": ("Preguntas antes de unirte", "Domande prima di iniziare"),
     "Is the price monthly or annual?": ("¿El precio es mensual o anual?", "Il prezzo è mensile o annuale?"),
-    "Does every business get accepted?": ("¿Se aceptan todos los negocios?", "Tutte le imprese vengono accettate?"),
-    "What happens after I apply?": ("¿Qué ocurre después de solicitarlo?", "Cosa succede dopo la richiesta?"),
-    "ADVERTISE ON PUBLIFUERTEVENTURA": ("ANÚNCIATE EN PUBLIFUERTEVENTURA", "PUBBLICIZZA SU PUBLIFUERTEVENTURA"),
-    "new customers.": ("nuevos clientes.", "nuovi clienti."), "Apply to advertise": ("Solicita anunciarte", "Richiedi pubblicità"),
-    "TELL US ABOUT YOUR BUSINESS": ("HÁBLANOS DE TU NEGOCIO", "PARLACI DELLA TUA ATTIVITÀ"),
-    "Send application": ("Enviar solicitud", "Invia richiesta"), "Business name": ("Nombre del negocio", "Nome dell'attività"),
-    "Contact name": ("Persona de contacto", "Nome del referente"), "Location": ("Ubicación", "Località"),
-    "Category": ("Categoría", "Categoria"), "Team size": ("Tamaño del equipo", "Dimensione del team"),
-    "Tell us about the business": ("Háblanos del negocio", "Parlaci dell'attività"),
-    "APPLICATION RECEIVED": ("SOLICITUD RECIBIDA", "RICHIESTA RICEVUTA"),
-    "Welcome to the conversation.": ("Bienvenido a la conversación.", "Benvenuto nella conversazione."),
+    "Business name": ("Nombre del negocio", "Nome dell'attività"),
+    "Location": ("Ubicación", "Località"), "Category": ("Categoría", "Categoria"),
 }
 
 COPY.update({

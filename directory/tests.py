@@ -12,6 +12,17 @@ from .models import AnalyticsPageView, Business, SiteSettings, Sponsor
     "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 })
 class NavigationPageTests(TestCase):
+    def test_base_template_references_only_existing_static_files(self):
+        template = (settings.BASE_DIR / "templates/directory/base.html").read_text()
+        static_paths = re.findall(r"{% static ['\"]([^'\"]+)['\"] %}", template)
+        self.assertTrue(static_paths)
+        for static_path in static_paths:
+            with self.subTest(static_path=static_path):
+                self.assertTrue(
+                    (settings.BASE_DIR / "static" / static_path).is_file(),
+                    f"Missing static asset referenced by base.html: {static_path}",
+                )
+
     def test_each_public_menu_destination_renders(self):
         for name in ("explore", "events", "collaborations", "about"):
             with self.subTest(name=name):
@@ -151,3 +162,6 @@ class NavigationPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, image_bytes)
         self.assertEqual(response["Content-Type"], "image/webp")
+import re
+
+from django.conf import settings
