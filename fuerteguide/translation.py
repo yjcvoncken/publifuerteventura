@@ -62,6 +62,17 @@ COPY = {
 
 COPY.update({
     "Discover": ("Descubrir", "Scopri"),
+    "Events": ("Eventos", "Eventi"),
+    "Events in Fuerteventura": ("Eventos en Fuerteventura", "Eventi a Fuerteventura"),
+    "WHAT'S HAPPENING": ("QUÉ ESTÁ PASANDO", "COSA SUCCEDE"),
+    "Events across<br>the island.": ("Eventos por<br>toda la isla.", "Eventi in tutta<br>l'isola."),
+    "Discover what is happening in Fuerteventura and save the dates that matter to you.": ("Descubre qué está pasando en Fuerteventura y guarda las fechas que te interesan.", "Scopri cosa succede a Fuerteventura e salva le date che ti interessano."),
+    "THE CALENDAR": ("EL CALENDARIO", "IL CALENDARIO"),
+    "Upcoming events": ("Próximos eventos", "Prossimi eventi"),
+    "The calendar is kept up to date through Google Calendar.": ("El calendario se mantiene actualizado a través de Google Calendar.", "Il calendario viene aggiornato tramite Google Calendar."),
+    "CALENDAR COMING SOON": ("CALENDARIO PRÓXIMAMENTE", "CALENDARIO IN ARRIVO"),
+    "We’re gathering the island’s best events.": ("Estamos reuniendo los mejores eventos de la isla.", "Stiamo raccogliendo i migliori eventi dell'isola."),
+    "Check back soon for markets, music, culture, sport and community happenings.": ("Vuelve pronto para descubrir mercados, música, cultura, deporte y eventos comunitarios.", "Torna presto per mercati, musica, cultura, sport ed eventi della comunità."),
     "Sponsors": ("Patrocinadores", "Sponsor"),
     "Collaborations": ("Colaboraciones", "Collaborazioni"),
     "OUR COLLABORATIONS": ("NUESTRAS COLABORACIONES", "LE NOSTRE COLLABORAZIONI"),

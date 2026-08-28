@@ -1,0 +1,31 @@
+{% extends 'directory/base.html' %}
+{% block title %}Events in Fuerteventura — PubliFuerteventura{% endblock %}
+{% block meta_description %}Discover upcoming events and things to do across Fuerteventura.{% endblock %}
+{% block content %}
+<main class="events-page">
+  <section class="events-hero">
+    <span class="showcase-label dark">WHAT'S HAPPENING</span>
+    <div class="events-heading">
+      <h1>Events across<br>the island.</h1>
+      <p>Discover what is happening in Fuerteventura and save the dates that matter to you.</p>
+    </div>
+  </section>
+  <section class="calendar-section" aria-labelledby="calendar-title">
+    <div class="calendar-intro">
+      <div><span class="showcase-label dark">THE CALENDAR</span><h2 id="calendar-title">Upcoming events</h2></div>
+      <p>The calendar is kept up to date through Google Calendar.</p>
+    </div>
+    {% if calendar_embed_url %}
+      <div class="calendar-frame">
+        <iframe src="{{ calendar_embed_url }}" title="PubliFuerteventura events calendar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    {% else %}
+      <div class="calendar-empty">
+        <span>CALENDAR COMING SOON</span>
+        <h2>We’re gathering the island’s best events.</h2>
+        <p>Check back soon for markets, music, culture, sport and community happenings.</p>
+      </div>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}

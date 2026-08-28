@@ -12,6 +12,7 @@ urlpatterns += i18n_patterns(
     path("", views.home, name="home"),
     path("pricing/", views.pricing, name="pricing"),
     path("explore/", views.explore, name="explore"),
+    path("events/", views.events, name="events"),
     path("collaborations/", views.collaborations, name="collaborations"),
     path("about/", views.about, name="about"),
     path("blog/", views.blog_archive, name="blog_archive"),

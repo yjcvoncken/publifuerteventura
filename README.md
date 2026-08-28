@@ -12,6 +12,17 @@ python3 manage.py runserver
 
 Open `/admin/` to manage homepage settings, showcase cards, sponsor banners and team profiles. Every showcase record supports ordering and an active/inactive switch. Images can be uploaded directly or supplied as external URLs.
 
+## Connect the events calendar
+
+The `/events/` page embeds a read-only Google Calendar. In Google Calendar, open the calendar's **Settings and sharing**, make it available to the public, and copy its **Calendar ID** from the **Integrate calendar** section. Then set these variables locally or in Railway:
+
+```text
+GOOGLE_CALENDAR_ID=your-calendar-id@group.calendar.google.com
+GOOGLE_CALENDAR_TIME_ZONE=Atlantic/Canary
+```
+
+After restarting or redeploying, events added to that Google Calendar appear automatically on the Events page. If no calendar ID is configured, the page shows a polished “coming soon” message instead.
+
 For production uploads, attach a Railway Volume to the web service. The application automatically stores uploads under `media/` inside Railway's `RAILWAY_VOLUME_MOUNT_PATH`; without a volume, Railway's application filesystem is ephemeral.
 
 ## Deploy on Railway

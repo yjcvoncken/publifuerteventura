@@ -83,3 +83,8 @@ CSRF_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", str(not DEBUG)).lower() in {"1", "true", "yes"}
 SECURE_REDIRECT_EXEMPT = [r"^health/$"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Public Google Calendar shown on the Events page. Google Calendar IDs are safe
+# to expose only when the calendar itself has been made public.
+GOOGLE_CALENDAR_ID = os.environ.get("GOOGLE_CALENDAR_ID", "").strip()
+GOOGLE_CALENDAR_TIME_ZONE = os.environ.get("GOOGLE_CALENDAR_TIME_ZONE", "Atlantic/Canary").strip()

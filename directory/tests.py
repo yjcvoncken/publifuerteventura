@@ -12,7 +12,7 @@ from .models import AnalyticsPageView, Business
 })
 class NavigationPageTests(TestCase):
     def test_each_public_menu_destination_renders(self):
-        for name in ("explore", "collaborations", "about", "blog_archive"):
+        for name in ("explore", "events", "collaborations", "about", "blog_archive"):
             with self.subTest(name=name):
                 response = self.client.get(reverse(name), secure=True)
                 self.assertEqual(response.status_code, 200)
@@ -21,15 +21,23 @@ class NavigationPageTests(TestCase):
         with translation.override("en"):
             response = self.client.get(reverse("home"), secure=True)
             self.assertContains(response, reverse("explore"))
+            self.assertContains(response, reverse("events"))
             self.assertContains(response, reverse("collaborations"))
             self.assertContains(response, reverse("about"))
             self.assertContains(response, "Collaborations")
             self.assertContains(response, "https://wa.me/34608908555")
 
     def test_localized_new_pages_render(self):
-        for path in ("/es/collaborations/", "/es/about/"):
+        for path in ("/es/events/", "/es/collaborations/", "/es/about/"):
             with self.subTest(path=path):
                 self.assertEqual(self.client.get(path, secure=True).status_code, 200)
+
+    @override_settings(GOOGLE_CALENDAR_ID="events@example.com", GOOGLE_CALENDAR_TIME_ZONE="Atlantic/Canary")
+    def test_events_page_embeds_configured_google_calendar(self):
+        response = self.client.get(reverse("events"), secure=True)
+        self.assertContains(response, "calendar.google.com/calendar/embed?")
+        self.assertContains(response, "events%40example.com")
+        self.assertContains(response, "Atlantic%2FCanary")
 
     def test_current_business_uses_generated_cover_and_separate_logo(self):
         business = Business.objects.get(slug="the-remote-escape")

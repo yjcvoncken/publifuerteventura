@@ -1,6 +1,7 @@
 from django.db.models import Q
 import hashlib
 import json
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.http import JsonResponse
@@ -56,6 +57,23 @@ def home(request):
 
 def pricing(request):
     return render(request, "directory/pricing.html")
+
+
+def events(request):
+    calendar_id = settings.GOOGLE_CALENDAR_ID
+    calendar_embed_url = ""
+    if calendar_id:
+        calendar_embed_url = "https://calendar.google.com/calendar/embed?" + urlencode({
+            "src": calendar_id,
+            "ctz": settings.GOOGLE_CALENDAR_TIME_ZONE,
+            "showTitle": 0,
+            "showPrint": 0,
+            "showCalendars": 0,
+            "showTz": 0,
+        })
+    return render(request, "directory/events.html", {
+        "calendar_embed_url": calendar_embed_url,
+    })
 
 
 def collaborations(request):
