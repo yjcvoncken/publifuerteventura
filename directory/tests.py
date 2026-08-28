@@ -63,6 +63,20 @@ class NavigationPageTests(TestCase):
         corralejo = Business.objects.get(slug="corralejo-info")
         self.assertIn("business-logos/corralejo-info", corralejo.display_logo_url)
 
+    def test_admin_selected_homepage_card_size_is_rendered(self):
+        business = Business.objects.get(slug="the-remote-escape")
+        business.featured = True
+        business.partner = True
+        business.homepage_size = Business.HomepageSize.LARGE
+        business.save()
+        response = self.client.get(reverse("home"), secure=True)
+        self.assertContains(response, "showcase-card-size-1")
+
+        business.homepage_size = Business.HomepageSize.SMALL
+        business.save()
+        response = self.client.get(reverse("home"), secure=True)
+        self.assertContains(response, "showcase-card-size-2")
+
     def test_collaboration_uses_explore_style_cover_and_logo(self):
         collaboration = Sponsor.objects.create(
             name="Island Partner",

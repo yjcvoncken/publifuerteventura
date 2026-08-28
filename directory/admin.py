@@ -78,13 +78,13 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Business)
 class BusinessAdmin(admin.ModelAdmin):
     list_display = (
-        "name", "category", "location", "rating", "featured", "partner"
+        "name", "category", "location", "homepage_size", "featured", "partner"
     )
 
     list_filter = ("partner", "featured", "category", "location")
     search_fields = ("name", "tagline", "description", "location")
     prepopulated_fields = {"slug": ("name",)}
-    list_editable = ("featured", "partner")
+    list_editable = ("homepage_size", "featured", "partner")
     list_select_related = ("category",)
     ordering = ("name",)
     fieldsets = (
@@ -92,7 +92,8 @@ class BusinessAdmin(admin.ModelAdmin):
         ("Cover image", {"fields": ("cover_image", "cover_image_url"), "description": "Large full-card photograph. Upload an image or provide an external URL."}),
         ("Logo", {"fields": ("logo", "logo_url", "image_url"), "description": "Small business logo displayed over the cover. The legacy URL keeps existing logos working."}),
         ("Location and link", {"fields": ("location", "website_url", "price_label")}),
-        ("Trust signals", {"fields": ("rating", "review_count", "partner", "featured")}),
+        ("Homepage display", {"fields": ("featured", "homepage_size"), "description": "Choose whether this featured business uses a large (1) or small (2) card on the homepage."}),
+        ("Trust signals", {"fields": ("rating", "review_count", "partner")}),
     )
 
 

@@ -10,6 +10,10 @@ class Category(models.Model):
     def __str__(self): return self.name
 
 class Business(models.Model):
+    class HomepageSize(models.IntegerChoices):
+        LARGE = 1, "1 — Large"
+        SMALL = 2, "2 — Small"
+
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="businesses")
     name = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
@@ -27,6 +31,11 @@ class Business(models.Model):
     price_label = models.CharField(max_length=40, blank=True)
     featured = models.BooleanField(default=False)
     partner = models.BooleanField(default=True)
+    homepage_size = models.PositiveSmallIntegerField(
+        choices=HomepageSize.choices,
+        default=HomepageSize.SMALL,
+        help_text="Choose 1 for a large homepage card or 2 for a small card.",
+    )
     def __str__(self): return self.name
 
     @property
