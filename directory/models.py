@@ -70,41 +70,6 @@ class Business(models.Model):
         return self.image_url
 
 
-class CommunityApplication(models.Model):
-    class Plan(models.TextChoices):
-        BASIC = "basic", "Basic — €100/year"
-        ADVANCED = "advanced", "Advanced — €250/year"
-        CUSTOM = "custom", "Custom — from €300/year"
-
-    class Status(models.TextChoices):
-        NEW = "new", "New"
-        CONTACTED = "contacted", "Contacted"
-        APPROVED = "approved", "Approved"
-        DECLINED = "declined", "Declined"
-
-    business_name = models.CharField(max_length=140)
-    plan = models.CharField(max_length=12, choices=Plan.choices, default=Plan.BASIC)
-    contact_name = models.CharField(max_length=120)
-    email = models.EmailField()
-    phone = models.CharField(max_length=40, blank=True)
-    website = models.URLField(blank=True)
-    location = models.CharField(max_length=120)
-    category = models.CharField(max_length=100)
-    team_size = models.CharField(max_length=40, blank=True)
-    message = models.TextField("Tell us about the business")
-    accepts_updates = models.BooleanField("Receive community news", default=False)
-    status = models.CharField(max_length=12, choices=Status.choices, default=Status.NEW)
-    admin_notes = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ("-created_at",)
-
-    def __str__(self):
-        return self.business_name
-
-
 class SiteSettings(models.Model):
     site_name = models.CharField(max_length=80, default="PubliFuerteventura")
     intro = models.TextField(max_length=280, default="Everything happening in Fuerteventura, in one place. Discover our portals, projects and people — then connect directly.")

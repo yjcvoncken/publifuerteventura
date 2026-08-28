@@ -42,6 +42,11 @@ class NavigationPageTests(TestCase):
             with self.subTest(path=path):
                 self.assertEqual(self.client.get(path, secure=True).status_code, 404)
 
+    def test_community_application_routes_are_removed(self):
+        for path in ("/community/join/", "/community/thanks/", "/es/community/join/"):
+            with self.subTest(path=path):
+                self.assertEqual(self.client.get(path, secure=True).status_code, 404)
+
     def test_localized_new_pages_render(self):
         for path in ("/es/events/", "/es/collaborations/", "/es/about/"):
             with self.subTest(path=path):

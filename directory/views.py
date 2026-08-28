@@ -5,12 +5,11 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .models import AnalyticsPageView, Business, Category, SiteSettings, Sponsor, TeamMember
-from .forms import CommunityApplicationForm
 
 
 def health(request):
@@ -126,20 +125,3 @@ def explore(request):
         "query": query,
         "active_category": category,
     })
-
-def join_community(request):
-    if request.method == "POST":
-        form = CommunityApplicationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("join_thanks")
-    else:
-        selected_plan = request.GET.get("plan", "basic")
-        if selected_plan not in {"basic", "advanced", "custom"}:
-            selected_plan = "basic"
-        form = CommunityApplicationForm(initial={"plan": selected_plan})
-    return render(request, "directory/join.html", {"form": form})
-
-
-def join_thanks(request):
-    return render(request, "directory/join_thanks.html")

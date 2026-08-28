@@ -6,7 +6,7 @@ from django.utils import timezone
 
 
 from .models import (
-    AnalyticsPageView, Business, Category, CommunityApplication,
+    AnalyticsPageView, Business, Category,
     SiteSettings, Sponsor, TeamMember,
 )
 
@@ -122,18 +122,3 @@ class AnalyticsPageViewAdmin(admin.ModelAdmin):
         }
         return super().changelist_view(request, {**(extra_context or {}), **dashboard})
 
-
-@admin.register(CommunityApplication)
-class CommunityApplicationAdmin(admin.ModelAdmin):
-    list_display = ("business_name", "plan", "contact_name", "location", "category", "status", "created_at")
-    list_filter = ("plan", "status", "category", "location", "accepts_updates", "created_at")
-    search_fields = ("business_name", "contact_name", "email", "phone", "message")
-    list_editable = ("status",)
-    readonly_fields = ("created_at", "updated_at")
-    date_hierarchy = "created_at"
-    ordering = ("-created_at",)
-    fieldsets = (
-        ("Application", {"fields": ("plan", "business_name", "contact_name", "email", "phone", "website")}),
-        ("Business", {"fields": ("location", "category", "team_size", "message", "accepts_updates")}),
-        ("Review", {"fields": ("status", "admin_notes", "created_at", "updated_at")}),
-    )
