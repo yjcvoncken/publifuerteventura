@@ -3,10 +3,10 @@ from datetime import timedelta
 from django.contrib import admin
 from django.db.models import Count
 from django.utils import timezone
-from django.utils.html import format_html
+
 
 from .models import (
-    AnalyticsPageView, BlogPost, Business, Category, CommunityApplication,
+    AnalyticsPageView, Business, Category, CommunityApplication,
     SiteSettings, Sponsor, TeamMember,
 )
 
@@ -47,7 +47,9 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 class SponsorAdmin(OrderedContentAdmin):
     search_fields = ("name", "link")
     fieldsets = (
-        ("Collaboration", {"fields": ("name", "description", "image", "image_url", "link")}),
+        ("Collaboration", {"fields": ("name", "description", "link")}),
+        ("Cover image", {"fields": ("cover_image", "cover_image_url"), "description": "Large photograph displayed across the card, just like a business cover."}),
+        ("Logo", {"fields": ("logo", "logo_url"), "description": "Small transparent logo displayed over the cover, just like a business logo."}),
         ("Visibility and position", {"fields": ("order", "active")}),
     )
 
@@ -119,39 +121,6 @@ class AnalyticsPageViewAdmin(admin.ModelAdmin):
             "top_pages": list(recent.values("path").annotate(views=Count("id")).order_by("-views")[:8]),
         }
         return super().changelist_view(request, {**(extra_context or {}), **dashboard})
-
-
-@admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ("title", "post_type", "status", "featured", "published_at", "updated_at", "view_post")
-    list_filter = ("post_type", "status", "featured", "published_at")
-    search_fields = ("title", "excerpt", "content", "author_name")
-    prepopulated_fields = {"slug": ("title",)}
-    list_editable = ("status", "featured")
-    actions = ("publish_now", "move_to_drafts")
-    date_hierarchy = "published_at"
-    ordering = ("-published_at",)
-    fieldsets = (
-        ("Write", {"fields": ("title", "slug", "excerpt", "content", "image_url"), "description": "Write useful content for Fuerteventura business owners and explain how online visibility can bring them customers."}),
-        ("Search visibility", {"fields": ("focus_keyword", "meta_title", "meta_description"), "description": "Target one clear phrase that a local business owner might search. Keep the SEO title and description natural and specific."}),
-        ("Publish", {"fields": ("post_type", "author_name", "status", "featured", "published_at"), "description": "Choose Published to make the post visible. A future publication date schedules it automatically."}),
-    )
-
-    @admin.display(description="Public page")
-    def view_post(self, post):
-        if post.status == post.Status.PUBLISHED and post.published_at <= timezone.now():
-            return format_html('<a href="{}">View ↗</a>', post.get_absolute_url())
-        return "—"
-
-    @admin.action(description="Publish selected posts now")
-    def publish_now(self, request, queryset):
-        count = queryset.update(status=BlogPost.Status.PUBLISHED, published_at=timezone.now())
-        self.message_user(request, f"{count} post(s) published.")
-
-    @admin.action(description="Move selected posts back to drafts")
-    def move_to_drafts(self, request, queryset):
-        count = queryset.update(status=BlogPost.Status.DRAFT)
-        self.message_user(request, f"{count} post(s) moved to drafts.")
 
 
 @admin.register(CommunityApplication)

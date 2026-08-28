@@ -2,25 +2,39 @@
 {% block title %}Collaborations · Publi News{% endblock %}
 {% block meta_description %}Meet the businesses, organisations and creative partners collaborating with Publi News in Fuerteventura.{% endblock %}
 {% block content %}
-<main class="editorial-page collaborations-page">
-  <header class="editorial-hero">
-    <span class="showcase-label dark">TOGETHER ON THE ISLAND</span>
-    <h1>Better things happen through collaboration.</h1>
+<main class="stream-page collaborations-stream-page">
+  <section class="stream-hero collaborations-stream-hero">
+    <span class="showcase-label">TOGETHER ON THE ISLAND</span>
+    <h1>Better things happen<br>through collaboration.</h1>
     <p>Meet the businesses, organisations and creative people helping us connect Fuerteventura.</p>
-  </header>
-  <section class="collaboration-grid" aria-label="Our collaborations">
-    {% for collaboration in collaborations %}
-      {% if collaboration.link %}<a class="collaboration-card" href="{{ collaboration.link }}">{% else %}<article class="collaboration-card">{% endif %}
-        <span class="collaboration-number">{{ forloop.counter|stringformat:"02d" }}</span>
-        <div class="collaboration-identity">
-          {% if collaboration.image %}<img src="{{ collaboration.image.url }}" alt="{{ collaboration.name }}">{% elif collaboration.image_url %}<img src="{{ collaboration.image_url }}" alt="{{ collaboration.name }}">{% else %}<strong>{{ collaboration.name }}</strong>{% endif %}
+  </section>
+  <section class="stream-library collaboration-library" aria-label="Our collaborations">
+    <div class="stream-row">
+      <div class="stream-row-head"><h2>Our collaborations</h2><span>Discover the people and projects in our network</span></div>
+      {% if collaborations %}
+        <div class="stream-rail-wrap">
+          <button class="rail-button rail-prev" type="button" aria-label="Scroll collaborations left">‹</button>
+          <div class="stream-rail collaboration-rail">
+            {% for collaboration in collaborations %}
+              {% if collaboration.link %}<a class="stream-card collaboration-stream-card" href="{{ collaboration.link }}" aria-label="Visit {{ collaboration.name }} website">{% else %}<article class="stream-card collaboration-stream-card">{% endif %}
+                <div class="stream-card-image collaboration-cover"{% if collaboration.display_cover_url %} style="background-image:url('{{ collaboration.display_cover_url }}')"{% endif %}></div>
+                {% if collaboration.display_logo_url %}<span class="business-card-logo stream-card-logo collaboration-card-logo"><img src="{{ collaboration.display_logo_url }}" alt="{{ collaboration.name }} logo"></span>{% endif %}
+                <div class="stream-card-overlay">
+                  <span>COLLABORATION {{ forloop.counter|stringformat:"02d" }}</span>
+                  <h3>{{ collaboration.name }}</h3>
+                  <p>{{ collaboration.description|default:"Part of the Publi News collaboration network in Fuerteventura." }}</p>
+                  {% if collaboration.link %}<b>Visit website ↗</b>{% endif %}
+                </div>
+              {% if collaboration.link %}</a>{% else %}</article>{% endif %}
+            {% endfor %}
+          </div>
+          <button class="rail-button rail-next" type="button" aria-label="Scroll collaborations right">›</button>
         </div>
-        <p class="collaboration-description">{{ collaboration.description|default:"Part of the Publi News collaboration network in Fuerteventura." }}</p>
-        <div class="collaboration-footer"><span>{{ collaboration.name }}</span>{% if collaboration.link %}<b>↗</b>{% endif %}</div>
-      {% if collaboration.link %}</a>{% else %}</article>{% endif %}
-    {% empty %}
-      <div class="editorial-empty"><h2>New collaborations are coming.</h2><p>Our network is growing across Fuerteventura.</p></div>
-    {% endfor %}
+      {% else %}
+        <div class="stream-empty"><h2>New collaborations are coming.</h2><p>Our network is growing across Fuerteventura.</p></div>
+      {% endif %}
+    </div>
   </section>
 </main>
+<script>document.querySelectorAll('.stream-rail-wrap').forEach(wrap=>{const rail=wrap.querySelector('.stream-rail');wrap.querySelector('.rail-prev').addEventListener('click',()=>rail.scrollBy({left:-rail.clientWidth*.8,behavior:'smooth'}));wrap.querySelector('.rail-next').addEventListener('click',()=>rail.scrollBy({left:rail.clientWidth*.8,behavior:'smooth'}))})</script>
 {% endblock %}

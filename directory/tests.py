@@ -4,7 +4,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import translation
 
-from .models import AnalyticsPageView, Business, SiteSettings
+from .models import AnalyticsPageView, Business, SiteSettings, Sponsor
 
 
 @override_settings(STORAGES={
@@ -13,7 +13,7 @@ from .models import AnalyticsPageView, Business, SiteSettings
 })
 class NavigationPageTests(TestCase):
     def test_each_public_menu_destination_renders(self):
-        for name in ("explore", "events", "collaborations", "about", "blog_archive"):
+        for name in ("explore", "events", "collaborations", "about"):
             with self.subTest(name=name):
                 response = self.client.get(reverse(name), secure=True)
                 self.assertEqual(response.status_code, 200)
@@ -31,11 +31,16 @@ class NavigationPageTests(TestCase):
     def test_public_links_do_not_open_new_tabs(self):
         for name in (
             "home", "explore", "events", "collaborations", "about",
-            "blog_archive", "privacy_policy", "cookie_policy", "terms",
+            "privacy_policy", "cookie_policy", "terms",
         ):
             with self.subTest(name=name):
                 response = self.client.get(reverse(name), secure=True)
                 self.assertNotContains(response, 'target="_blank"')
+
+    def test_journal_routes_are_removed(self):
+        for path in ("/blog/", "/blog/old-story/", "/es/blog/"):
+            with self.subTest(path=path):
+                self.assertEqual(self.client.get(path, secure=True).status_code, 404)
 
     def test_localized_new_pages_render(self):
         for path in ("/es/events/", "/es/collaborations/", "/es/about/"):
@@ -57,6 +62,23 @@ class NavigationPageTests(TestCase):
         self.assertEqual(business.display_logo_url, business.image_url)
         corralejo = Business.objects.get(slug="corralejo-info")
         self.assertIn("business-logos/corralejo-info", corralejo.display_logo_url)
+
+    def test_collaboration_uses_explore_style_cover_and_logo(self):
+        collaboration = Sponsor.objects.create(
+            name="Island Partner",
+            description="A local creative partner.",
+            cover_image_url="https://example.com/cover.jpg",
+            logo_url="https://example.com/logo.png",
+            active=True,
+        )
+        response = self.client.get(reverse("collaborations"), secure=True)
+        self.assertContains(response, "stream-card collaboration-stream-card")
+        self.assertContains(response, collaboration.display_cover_url)
+        self.assertContains(response, collaboration.display_logo_url)
+        field_names = {field.name for field in Sponsor._meta.fields}
+        self.assertTrue({"cover_image", "cover_image_url", "logo", "logo_url"} <= field_names)
+        self.assertNotIn("image", field_names)
+        self.assertNotIn("image_url", field_names)
 
     def test_analytics_requires_consent_and_hashes_session(self):
         endpoint = reverse("analytics_page_view")

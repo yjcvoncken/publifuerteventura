@@ -5,12 +5,11 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
+from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .models import AnalyticsPageView, BlogPost, Business, Category, SiteSettings, Sponsor, TeamMember
+from .models import AnalyticsPageView, Business, Category, SiteSettings, Sponsor, TeamMember
 from .forms import CommunityApplicationForm
 
 
@@ -127,31 +126,6 @@ def explore(request):
         "query": query,
         "active_category": category,
     })
-
-def blog_archive(request):
-    posts = BlogPost.objects.filter(
-        status=BlogPost.Status.PUBLISHED,
-        published_at__lte=timezone.now(),
-    )
-    active_type = request.GET.get("type", "")
-    visible_posts = posts.filter(post_type=active_type) if active_type in BlogPost.PostType.values else posts
-    return render(request, "directory/blog_archive.html", {
-        "featured_post": posts.filter(featured=True).first() or posts.first(),
-        "posts": visible_posts,
-        "active_type": active_type,
-        "post_types": BlogPost.PostType.choices,
-    })
-
-
-def blog_detail(request, slug):
-    post = get_object_or_404(
-        BlogPost,
-        slug=slug,
-        status=BlogPost.Status.PUBLISHED,
-        published_at__lte=timezone.now(),
-    )
-    return render(request, "directory/blog_detail.html", {"post": post})
-
 
 def join_community(request):
     if request.method == "POST":

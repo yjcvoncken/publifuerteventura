@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.templatetags.static import static
-from django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=80)
@@ -58,42 +57,6 @@ class Business(models.Model):
         if self.slug in transparent_logos:
             return static(transparent_logos[self.slug])
         return self.image_url
-
-
-class BlogPost(models.Model):
-    class Status(models.TextChoices):
-        DRAFT = "draft", "Draft"
-        PUBLISHED = "published", "Published"
-
-    class PostType(models.TextChoices):
-        MARKETING = "marketing", "Business marketing"
-        SEO = "seo", "Local SEO"
-        BUSINESS = "business", "Business spotlight"
-
-    title = models.CharField(max_length=180)
-    slug = models.SlugField(unique=True)
-    excerpt = models.TextField(max_length=320, help_text="A short introduction shown on the blog archive.")
-    content = models.TextField(help_text="Write the article in plain text. Paragraph breaks are preserved.")
-    image_url = models.URLField("cover image URL", blank=True)
-    author_name = models.CharField(max_length=100, default="Publifuerteventura team")
-    post_type = models.CharField(max_length=12, choices=PostType.choices, default=PostType.MARKETING)
-    focus_keyword = models.CharField(max_length=160, blank=True, help_text="Main search phrase this article should target.")
-    meta_title = models.CharField(max_length=160, blank=True, help_text="SEO page title. Leave blank to use the article title.")
-    meta_description = models.CharField(max_length=320, blank=True, help_text="SEO description shown in search results. Leave blank to use the excerpt.")
-    status = models.CharField(max_length=12, choices=Status.choices, default=Status.DRAFT)
-    featured = models.BooleanField(default=False)
-    published_at = models.DateTimeField("publication date", default=timezone.now)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ("-published_at",)
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse("blog_detail", kwargs={"slug": self.slug})
 
 
 class CommunityApplication(models.Model):
@@ -197,8 +160,10 @@ class ShowcaseCard(models.Model):
 class Sponsor(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=300, blank=True, help_text="Short description shown on the collaborations page.")
-    image = models.FileField(upload_to="showcase/sponsors/", blank=True)
-    image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
+    cover_image = models.FileField(upload_to="collaborations/covers/", blank=True)
+    cover_image_url = models.URLField(blank=True, help_text="Optional external cover photograph URL.")
+    logo = models.FileField(upload_to="collaborations/logos/", blank=True)
+    logo_url = models.URLField(blank=True, help_text="Optional external logo URL.")
     link = models.URLField(blank=True)
     order = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
@@ -210,6 +175,18 @@ class Sponsor(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def display_cover_url(self):
+        if self.cover_image:
+            return self.cover_image.url
+        return self.cover_image_url
+
+    @property
+    def display_logo_url(self):
+        if self.logo:
+            return self.logo.url
+        return self.logo_url
 
 
 class TeamMember(models.Model):

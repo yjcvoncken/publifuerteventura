@@ -2,6 +2,7 @@
 .business-card-logo{position:absolute;z-index:4;top:16px;left:16px;width:104px;height:44px;display:grid;place-items:center;background:transparent}
 .business-card-logo img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(5,40,50,.38))}
 .stream-card-logo{top:14px;left:14px;width:94px;height:40px}.business-card-logo-the-remote-escape{width:76px;height:36px}
+.collaboration-cover{background-image:linear-gradient(135deg,#038598,#eec553)}.collaboration-card-logo{width:118px;height:50px}.collaboration-stream-card{min-height:300px}.collaboration-stream-card .stream-card-overlay{opacity:1;transform:none}.collaboration-stream-card .stream-card-overlay p{line-height:1.5}.collaboration-library{padding-top:75px}.stream-row-head>span{font-size:11px;opacity:.6}
 .showcase-card .showcase-card-shade{background:linear-gradient(0deg,rgba(5,40,50,.94) 0%,rgba(5,40,50,.55) 38%,transparent 72%)}
 .showcase-card:hover .showcase-card-shade,.showcase-card:focus-visible .showcase-card-shade{opacity:1}
 .stream-card-overlay{background:linear-gradient(0deg,rgba(5,40,50,.96) 0%,rgba(5,40,50,.6) 46%,transparent 88%)}
