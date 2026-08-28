@@ -71,9 +71,11 @@ class NavigationPageTests(TestCase):
 
     def test_uploaded_hero_is_stored_and_served_from_database(self):
         image_bytes = b"database-backed-image"
-        site_settings = SiteSettings.objects.create(
-            hero_image=SimpleUploadedFile("hero.webp", image_bytes, content_type="image/webp")
+        site_settings = SiteSettings.objects.first() or SiteSettings()
+        site_settings.hero_image = SimpleUploadedFile(
+            "hero.webp", image_bytes, content_type="image/webp"
         )
+        site_settings.save()
         site_settings.refresh_from_db()
         self.assertEqual(bytes(site_settings.hero_image_data), image_bytes)
         self.assertEqual(site_settings.display_hero_url, reverse("site_hero_image"))
