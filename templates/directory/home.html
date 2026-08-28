@@ -3,7 +3,7 @@
 {% block meta_description %}Discover Fuerteventura's portals, projects, services and collaborators in one visual showcase.{% endblock %}
 {% block content %}
 <main class="showcase-page">
-  <section class="showcase-hero"{% if site_settings.hero_image %} style="--hero-image:url('{{ site_settings.hero_image.url }}')"{% elif site_settings.hero_image_url %} style="--hero-image:url('{{ site_settings.hero_image_url }}')"{% endif %}>
+  <section class="showcase-hero"{% if site_settings.display_hero_url %} style="--hero-image:url('{{ site_settings.display_hero_url }}')"{% endif %}>
     <div class="showcase-hero-shade"></div>
     <div class="showcase-hero-copy">
       <span class="showcase-label">THE ISLAND · ALL IN ONE PLACE</span>

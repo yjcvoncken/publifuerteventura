@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import translation
 
-from .models import AnalyticsPageView, Business
+from .models import AnalyticsPageView, Business, SiteSettings
 
 
 @override_settings(STORAGES={
@@ -67,3 +68,17 @@ class NavigationPageTests(TestCase):
         response = self.client.get(reverse("admin:directory_analyticspageview_changelist"), secure=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "All-time views")
+
+    def test_uploaded_hero_is_stored_and_served_from_database(self):
+        image_bytes = b"database-backed-image"
+        site_settings = SiteSettings.objects.create(
+            hero_image=SimpleUploadedFile("hero.webp", image_bytes, content_type="image/webp")
+        )
+        site_settings.refresh_from_db()
+        self.assertEqual(bytes(site_settings.hero_image_data), image_bytes)
+        self.assertEqual(site_settings.display_hero_url, reverse("site_hero_image"))
+
+        response = self.client.get(reverse("site_hero_image"), secure=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, image_bytes)
+        self.assertEqual(response["Content-Type"], "image/webp")

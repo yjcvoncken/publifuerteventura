@@ -136,6 +136,8 @@ class SiteSettings(models.Model):
     intro = models.TextField(max_length=280, default="Everything happening in Fuerteventura, in one place. Discover our portals, projects and people — then connect directly.")
     hero_title = models.CharField(max_length=120, default="Fuerteventura, all connected.")
     hero_image = models.FileField(upload_to="showcase/", blank=True)
+    hero_image_data = models.BinaryField(blank=True, null=True, editable=False)
+    hero_image_content_type = models.CharField(max_length=100, blank=True, editable=False)
     hero_image_url = models.URLField(blank=True, help_text="Optional alternative to an uploaded image.")
     trailer_url = models.URLField(blank=True, help_text="YouTube, Vimeo or another external trailer link.")
     contact_url = models.URLField(blank=True, default="https://wa.me/")
@@ -148,6 +150,32 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return "Homepage settings"
+
+    def save(self, *args, **kwargs):
+        # Railway replaces its application filesystem on deploy. Preserve the
+        # uploaded hero itself in PostgreSQL so it survives every release.
+        uploaded = None
+        if self.hero_image and not self.hero_image._committed:
+            uploaded = self.hero_image.file
+        if uploaded and hasattr(uploaded, "read"):
+            try:
+                uploaded.seek(0)
+                self.hero_image_data = uploaded.read()
+                self.hero_image_content_type = getattr(uploaded, "content_type", "") or "image/jpeg"
+                uploaded.seek(0)
+            except (OSError, ValueError):
+                pass
+        super().save(*args, **kwargs)
+
+    @property
+    def display_hero_url(self):
+        if self.hero_image_data and self.pk:
+            return reverse("site_hero_image")
+        if self.hero_image_url:
+            return self.hero_image_url
+        if self.hero_image:
+            return self.hero_image.url
+        return ""
 
 
 class ShowcaseCard(models.Model):

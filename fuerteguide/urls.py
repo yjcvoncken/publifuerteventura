@@ -6,6 +6,7 @@ from django.views.static import serve
 from directory import views
 
 urlpatterns = [path("analytics/page-view/", views.analytics_page_view, name="analytics_page_view")]
+urlpatterns += [path("site-assets/hero/", views.site_hero_image, name="site_hero_image")]
 
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),

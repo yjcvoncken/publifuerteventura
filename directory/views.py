@@ -4,7 +4,7 @@ import json
 from urllib.parse import urlencode
 
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
@@ -16,6 +16,21 @@ from .forms import CommunityApplicationForm
 
 def health(request):
     return JsonResponse({"status": "ok"})
+
+
+def site_hero_image(request):
+    site_settings = SiteSettings.objects.only(
+        "hero_image_data", "hero_image_content_type"
+    ).first()
+    if not site_settings or not site_settings.hero_image_data:
+        return HttpResponse(status=404)
+    response = HttpResponse(
+        bytes(site_settings.hero_image_data),
+        content_type=site_settings.hero_image_content_type or "image/jpeg",
+    )
+    response["Cache-Control"] = "public, max-age=3600"
+    response["X-Content-Type-Options"] = "nosniff"
+    return response
 
 
 @csrf_exempt

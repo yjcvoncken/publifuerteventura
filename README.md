@@ -23,7 +23,7 @@ GOOGLE_CALENDAR_TIME_ZONE=Atlantic/Canary
 
 After restarting or redeploying, events added to that Google Calendar appear automatically on the Events page. If no calendar ID is configured, the page shows a polished “coming soon” message instead.
 
-For production uploads, attach a Railway Volume to the web service. The application automatically stores uploads under `media/` inside Railway's `RAILWAY_VOLUME_MOUNT_PATH`; without a volume, Railway's application filesystem is ephemeral.
+The homepage hero upload is stored directly in PostgreSQL so it survives Railway redeployments. Other uploaded collaboration, business and team images use the attached Railway Volume; their external URL fields can also be used for independently hosted images.
 
 ## Deploy on Railway
 
