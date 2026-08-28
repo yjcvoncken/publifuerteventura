@@ -2,3 +2,20 @@
 :root{--font-display:"Pirou","DM Serif Display",Georgia,serif}
 h1,h2,.price{text-wrap:balance;font-weight:400;letter-spacing:.01em}
 .showcase-hero h1,.journal-header h1,.article-header h1,.pricing-header h1,.stream-hero h1,.community-intro h1,.legal-page h1{letter-spacing:.015em}
+
+/* Keep large display headings inside narrow Android viewports. Words wrap
+   naturally; no automatic hyphens are added. */
+@media(max-width:560px){
+  .showcase-hero-copy,.events-heading{min-width:0;max-width:100%}
+  .showcase-hero h1,.events-heading h1,.editorial-hero h1{
+    max-width:100%;
+    font-size:clamp(38px,13vw,52px);
+    overflow-wrap:break-word;
+    word-break:normal;
+    hyphens:none;
+  }
+}
+
+@media(max-width:360px){
+  .showcase-hero h1,.events-heading h1,.editorial-hero h1{font-size:clamp(34px,12.5vw,45px)}
+}
